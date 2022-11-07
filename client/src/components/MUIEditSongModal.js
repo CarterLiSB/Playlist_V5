@@ -54,7 +54,7 @@ export default function MUIEditSongModal() {
             <Box sx={style}>
             <div
             id="edit-song-modal"
-            className="modal is-visible"
+            className="modal-dialog is-visible"
             data-animation="slideInOutLeft">
             <div
                 id='edit-song-root'

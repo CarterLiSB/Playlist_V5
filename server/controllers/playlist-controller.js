@@ -25,6 +25,12 @@ createPlaylist = (req, res) => {
     }
 
     User.findOne({ _id: req.userId }, (err, user) => {
+        if (user.email !== playlist.ownerEmail){
+            return res.status(400).json({
+                success: false,
+                error: 'Access denied!',
+            })
+        }
         console.log("user found: " + JSON.stringify(user));
         user.playlists.push(playlist._id);
         user
