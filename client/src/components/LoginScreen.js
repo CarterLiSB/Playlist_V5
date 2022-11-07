@@ -16,8 +16,15 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
+import MUIErrorModal from './MUIErrorModal';
+
 export default function LoginScreen() {
     const { auth } = useContext(AuthContext);
+
+    let modal = "";
+    if(auth.errMsg){
+        modal = <MUIErrorModal/>;
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -111,6 +118,8 @@ export default function LoginScreen() {
                     </Box>
                 </Box>
             </Grid>
+            {modal}
         </Grid>
+        
     );
 }
