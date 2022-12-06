@@ -1,15 +1,36 @@
 import React from 'react';
 import YouTube from 'react-youtube';
 
+import { useContext, useState } from 'react';
+import { Link } from 'react-router-dom'
+import AuthContext from '../auth';
+import { GlobalStoreContext } from '../store'
+
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+
+import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
+import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
+import FastForwardRoundedIcon from '@mui/icons-material/FastForwardRounded';
+import FastRewindRoundedIcon from '@mui/icons-material/FastRewindRounded';
+
 export default function YouTubePlayerExample() {
     // THIS EXAMPLE DEMONSTRATES HOW TO DYNAMICALLY MAKE A
     // YOUTUBE PLAYER AND EMBED IT IN YOUR SITE. IT ALSO
     // DEMONSTRATES HOW TO IMPLEMENT A PLAYLIST THAT MOVES
     // FROM ONE SONG TO THE NEXT
 
+
+    const { store } = useContext(GlobalStoreContext);
     // THIS HAS THE YOUTUBE IDS FOR THE SONGS IN OUR PLAYLIST
     let playlist = [
-
+        "mqmxkGjow1A",
+        "8RbXIMZmVv8",
+        "8UbNbor3OqQ"
     ];
 
     // THIS IS THE INDEX OF THE SONG CURRENTLY IN USE IN THE PLAYLIST
@@ -36,6 +57,13 @@ export default function YouTubePlayerExample() {
     function incSong() {
         currentSong++;
         currentSong = currentSong % playlist.length;
+        loadAndPlayCurrentSong(player);
+    }
+
+    function decSong() {
+        currentSong--;
+        currentSong = currentSong % playlist.length;
+        loadAndPlayCurrentSong(player);
     }
 
     function onPlayerReady(event) {
@@ -73,9 +101,27 @@ export default function YouTubePlayerExample() {
         }
     }
 
-    return <YouTube
-        videoId={playlist[currentSong]}
-        opts={playerOptions}
-        onReady={onPlayerReady}
-        onStateChange={onPlayerStateChange} />;
+    return (
+        <div>
+            <YouTube
+                videoId={playlist[currentSong]}
+                opts={playerOptions}
+                onReady={onPlayerReady}
+                onStateChange={onPlayerStateChange} />
+            <card sx = {{width: "75%", bgcolor: "white"}}>
+                <CardContent>
+                    <div>Playlist: </div>
+                    <div>Song #: </div>
+                    <div>Title: </div>
+                    <div>Artist: </div>
+                </CardContent>
+            </card>
+            <Box sx = {{width: "40%", bgcolor: "grey", borderRadius: "25"}}>
+                <IconButton onClick = {decSong()}><FastRewindRoundedIcon sx = {{color: "black", fontSize: 24}}></FastRewindRoundedIcon></IconButton>
+                <IconButton onClick = {decSong()}><PauseRoundedIcon sx = {{color: "black", fontSize: 24}}></PauseRoundedIcon></IconButton>
+                <IconButton onClick = {decSong()}><PlayArrowRoundedIcon sx = {{color: "black", fontSize: 24}}></PlayArrowRoundedIcon></IconButton>
+                <IconButton onClick = {decSong()}><FastForwardRoundedIcon sx = {{color: "black", fontSize: 24}}></FastForwardRoundedIcon></IconButton>
+            </Box>
+        </div>
+    )
 }
