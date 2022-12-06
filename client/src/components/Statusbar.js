@@ -10,10 +10,15 @@ import { Typography } from '@mui/material'
 function Statusbar() {
     const { store } = useContext(GlobalStoreContext);
     let text ="";
-    if (store.currentList)
+    let idName = "playlister-statusbar-hidden";
+    if (store.currentList){
         text = store.currentList.name;
+        idName = "playlister-statusbar";
+    }    
+    else
+        idName = "playlister-statusbar-hidden";
     return (
-        <div id="playlister-statusbar">
+        <div id= {idName}>
             <Typography variant="h4">{text}</Typography>
         </div>
     );
