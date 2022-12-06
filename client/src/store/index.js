@@ -31,7 +31,12 @@ export const GlobalStoreActionType = {
     EDIT_SONG: "EDIT_SONG",
     REMOVE_SONG: "REMOVE_SONG",
     HIDE_MODALS: "HIDE_MODALS",
-    UNMARK_LIST_FOR_DELETION: "UNMARK_LIST_FOR_DELETION"
+    UNMARK_LIST_FOR_DELETION: "UNMARK_LIST_FOR_DELETION",
+
+    CHANGE_LIKES: "CHANGE_LIKES",
+    CHANGE_DISLIKES: "CHANGE_DISLIKES",
+    GET_PUBLIC_LISTS: "GET_PUBLIC_LISTS"
+    //publish needed
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -57,7 +62,9 @@ function GlobalStoreContextProvider(props) {
         newListCounter: 0,
         listNameActive: false,
         listIdMarkedForDeletion: null,
-        listMarkedForDeletion: null
+        listMarkedForDeletion: null,
+
+        publicLists: []
     });
     const history = useHistory();
 
@@ -222,6 +229,45 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: payload.playlist
                 });
             }
+
+            case GlobalStoreActionType.CHANGE_LIKES: {
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    idNamePairs: store.idNamePairs,
+                    currentList: null,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter,
+                    listNameActive: false,
+                    listMarkedForDeletion: null
+                });
+            }
+            case GlobalStoreActionType.CHANGE_DISLIKES: {
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    idNamePairs: store.idNamePairs,
+                    currentList: null,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter,
+                    listNameActive: false,
+                    listMarkedForDeletion: null
+                });
+            }
+            case GlobalStoreActionType.GET_PUBLIC_LISTS: {
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    idNamePairs: store.idNamePairs,
+                    currentList: null,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter,
+                    listNameActive: false,
+                    listMarkedForDeletion: null
+                });
+            }
+
+
             default:
                 return store;
         }
@@ -540,6 +586,18 @@ function GlobalStoreContextProvider(props) {
             type: GlobalStoreActionType.UNMARK_LIST_FOR_DELETION,
             payload: { playlist: null}
         }); 
+    }
+
+    store.changeLikes = function(id) {
+
+    }
+
+    store.changeDislikes = function(id) {
+
+    }
+
+    store.getPublicLists = function() {
+        
     }
 
     return (

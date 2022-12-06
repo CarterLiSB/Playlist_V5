@@ -33,6 +33,9 @@ const App = () => {
                         <Route path="/login/" exact component={LoginScreen} />
                         <Route path="/register/" exact component={RegisterScreen} />
                         <Route path="/playlist/:id" exact component={WorkspaceScreen} />
+                        <Route path="/homescreen" exact component={HomeScreen} />
+                        <Route path="/alllistsscreen" exact component={AllListsScreen} />
+                        <Route path="/userscreen" exact component={UserScreen} />
                     </Switch>
                     <Statusbar />
                 </GlobalStoreContextProvider>

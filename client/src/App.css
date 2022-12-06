@@ -154,6 +154,12 @@ body {
   background-color: #898989;
 }
 
+#nav-toolbar{
+  color: black;
+  position: static;
+  background-color: #898989;
+}
+
 #playlister-logo {
   display:flex;
   max-width: 8vw;

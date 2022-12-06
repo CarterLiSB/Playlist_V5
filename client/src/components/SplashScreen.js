@@ -1,5 +1,4 @@
 import MenuItem from '@mui/material/MenuItem';
-import { Button } from '@mui/material';
 import { Link } from 'react-router-dom'
 import Typography from '@mui/material/Typography';
 
@@ -13,7 +12,7 @@ export default function SplashScreen() {
             <img src = "images/Example.png" id = "splash-screen-image"></img>
             <MenuItem id = "splash-screen-button1"><Link to='/login/' style={{ textDecoration: 'none', fontColor: "black" }}>Login</Link></MenuItem>
             <MenuItem id = "splash-screen-button2"><Link to='/register/' style={{ textDecoration: 'none', fontColor: "black" }}>Create New Account</Link></MenuItem>
-            <MenuItem id = "splash-screen-button3"><Link to='/guest/' style={{ textDecoration: 'none', fontColor: "black" }}>Continue as Guest</Link></MenuItem>
+            <MenuItem id = "splash-screen-button3"><Link to='/alllistsscreen/' style={{ textDecoration: 'none', fontColor: "black" }}>Continue as Guest</Link></MenuItem>
         </div>
         
     )
