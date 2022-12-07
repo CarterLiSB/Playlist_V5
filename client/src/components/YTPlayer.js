@@ -17,6 +17,7 @@ import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
 import FastForwardRoundedIcon from '@mui/icons-material/FastForwardRounded';
 import FastRewindRoundedIcon from '@mui/icons-material/FastRewindRounded';
+import { CardContent } from '@mui/material'
 
 export default function YouTubePlayerExample() {
     // THIS EXAMPLE DEMONSTRATES HOW TO DYNAMICALLY MAKE A
@@ -57,18 +58,31 @@ export default function YouTubePlayerExample() {
     function incSong() {
         currentSong++;
         currentSong = currentSong % playlist.length;
-        loadAndPlayCurrentSong(player);
     }
 
     function decSong() {
         currentSong--;
         currentSong = currentSong % playlist.length;
-        loadAndPlayCurrentSong(player);
     }
 
     function onPlayerReady(event) {
         loadAndPlayCurrentSong(event.target);
         event.target.playVideo();
+    }
+
+    function handleRewind(){
+        decSong();
+    }
+
+    function handlePause(){
+        //event.stopVideo()
+    }
+
+    function handlePlay(){
+       //event.playVideo()
+    }
+    function handleSkip(){
+        incSong();
     }
 
     // THIS IS OUR EVENT HANDLER FOR WHEN THE YOUTUBE PLAYER'S STATE
@@ -116,11 +130,11 @@ export default function YouTubePlayerExample() {
                     <div>Artist: </div>
                 </CardContent>
             </card>
-            <Box sx = {{width: "40%", bgcolor: "grey", borderRadius: "25"}}>
-                <IconButton onClick = {decSong()}><FastRewindRoundedIcon sx = {{color: "black", fontSize: 24}}></FastRewindRoundedIcon></IconButton>
-                <IconButton onClick = {decSong()}><PauseRoundedIcon sx = {{color: "black", fontSize: 24}}></PauseRoundedIcon></IconButton>
-                <IconButton onClick = {decSong()}><PlayArrowRoundedIcon sx = {{color: "black", fontSize: 24}}></PlayArrowRoundedIcon></IconButton>
-                <IconButton onClick = {decSong()}><FastForwardRoundedIcon sx = {{color: "black", fontSize: 24}}></FastForwardRoundedIcon></IconButton>
+            <Box sx = {{width: "40%", bgcolor: "lightgrey", borderRadius: "25px"}}>
+                <IconButton onClick = {handleRewind()}><FastRewindRoundedIcon sx = {{color: "black", fontSize: 24}}></FastRewindRoundedIcon></IconButton>
+                <IconButton onClick = {handlePause()}><PauseRoundedIcon sx = {{color: "black", fontSize: 24}}></PauseRoundedIcon></IconButton>
+                <IconButton onClick = {handlePlay()}><PlayArrowRoundedIcon sx = {{color: "black", fontSize: 24}}></PlayArrowRoundedIcon></IconButton>
+                <IconButton onClick = {handleSkip()}><FastForwardRoundedIcon sx = {{color: "black", fontSize: 24}}></FastForwardRoundedIcon></IconButton>
             </Box>
         </div>
     )

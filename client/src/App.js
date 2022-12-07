@@ -9,7 +9,10 @@ import {
     LoginScreen,
     RegisterScreen,
     Statusbar,
-    WorkspaceScreen
+    WorkspaceScreen,
+    HomeScreen,
+    AllListsScreen,
+    UserScreen
 } from './components'
 /*
     This is our application's top-level component.

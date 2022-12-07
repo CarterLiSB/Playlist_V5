@@ -13,7 +13,6 @@ import SplashScreen from './SplashScreen'
 import Statusbar from './Statusbar'
 import WorkspaceScreen from './WorkspaceScreen'
 import MUIErrorModal from './MUIErrorModal'
-import NavToolbar from './NavToolbar'
 import AllListsScreen from './AllListsScreen'
 import UserScreen from './UserScreen'
 import YTPlayer from './YTPlayer'
@@ -39,7 +38,6 @@ export {
     Statusbar, 
     WorkspaceScreen,
     MUIErrorModal,
-    NavToolbar,
     AllListsScreen,
     UserScreen,
     YTPlayer

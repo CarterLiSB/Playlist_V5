@@ -118,13 +118,14 @@ function AuthContextProvider(props) {
                         user: response.data.user
                     }
                 })
-                history.push("/");
+                history.push("/homescreen");
             }
         } catch(error){
+            console.log('here')
             authReducer({
                 type: AuthActionType.ERRORS,
                 payload: {
-                    errMsg: error.response.data.errorMessage
+                    errMsg: ""
                 }
             })
         }

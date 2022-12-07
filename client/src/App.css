@@ -12,7 +12,7 @@
   --swatch-contrast: #111111;
   --swatch-accent: #669966;
   --swatch-status: #123456;
-  --my-font-family: "Robaaaoto";
+  --my-font-family: "Verdana";
   --bounceEasing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
 }
 
@@ -29,7 +29,7 @@ body {
   top: 90%;
   width: 80%;
   height: 5%;
-  font-size: 36pt;
+  font-size: 24pt;
 }
 
 #playlister-statusbar-hidden{
@@ -38,7 +38,7 @@ body {
 
 #root {
   background-color: var(--swatch-primary);
-  font-family: "Lexend Exa";
+  font-family: "Verdana";
   position: absolute;
   width: 80%;
   left: 10%;
@@ -63,7 +63,7 @@ body {
   float: left;
   background-image: linear-gradient(to bottom, #b8b808, #636723);
   color: white;
-  font-size: 48pt;
+  font-size: 24pt;
   border-color: black;
   border-width: 2px;
   border-style: solid;
@@ -105,7 +105,7 @@ body {
 #splash-screen-blurb {
   color: black;
   font-size: 0.9vw;
-  font-family: "verdana";
+  font-family: "Verdana";
   width:50%;
   text-align: center;
   display: block;
@@ -127,7 +127,7 @@ body {
   right: 2%;
   top: 10%;
   font-size: 1vw;
-  font-family: "verdana";
+  font-family: "Verdana";
   border-color: #a92f28;
   border-width: 3px;
   border-style: solid;
@@ -154,11 +154,20 @@ body {
   background-color: #898989;
 }
 
-#nav-toolbar{
+#nav-toolbar {
   color: black;
   position: static;
   background-color: #898989;
 }
+
+#new-list-button {
+  font-size: 24pt;
+  color: black;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
 #playlister-logo {
   display:flex;
@@ -172,7 +181,7 @@ body {
 
 .top5-button,
 .top5-button-disabled {
-  font-size: 36pt;
+  font-size: 24pt;
   border-width: 0px;
   float: left;
   color: black;
@@ -218,7 +227,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 36pt;
+  font-size: 24pt;
 }
 
 #list-selector-heading {
@@ -319,7 +328,7 @@ body {
 .top5-item-dragged-to {
   display: flex;
   align-items: center;
-  font-size: 48pt;
+  font-size: 24pt;
   height: 20%;
 }
 
