@@ -37,8 +37,8 @@ export const GlobalStoreActionType = {
     CHANGE_DISLIKES: "CHANGE_DISLIKES",
     GET_PUBLIC_LISTS: "GET_PUBLIC_LISTS",
     SET_SELECTED_LIST: "SET_SELECTED_LIST",
-    DUPLICATE_LIST: "DUPLICATE_LIST"
-    //publish needed
+    DUPLICATE_LIST: "DUPLICATE_LIST",
+    PUBLISH_LIST: "PUBLISH_LIST"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -66,8 +66,8 @@ function GlobalStoreContextProvider(props) {
         listIdMarkedForDeletion: null,
         listMarkedForDeletion: null,
 
-        selectedList: null,
-        publicLists: []
+        selectedList: null
+
     });
     const history = useHistory();
 
@@ -314,6 +314,20 @@ function GlobalStoreContextProvider(props) {
                     selectedList: store.selectedList
                 })
             }
+            case GlobalStoreActionType.PUBLISH_LIST: {                
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    idNamePairs: store.idNamePairs,
+                    currentList: store.currentList,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter + 1,
+                    listNameActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null,
+                    selectedList: store.selectedList
+                })
+            }
 
             default:
                 return store;
@@ -523,6 +537,20 @@ function GlobalStoreContextProvider(props) {
             console.log("API FAILED TO DUPLICATE LIST");
         }
     }
+
+    store.publishCurrentList = function() {
+        async function asyncPublishCurrentList() {
+            const response = await api.publishPlaylistById(store.currentList._id, store.currentList);
+            if (response.data.success) {
+                storeReducer({
+                    type: GlobalStoreActionType.SET_CURRENT_LIST,
+                    payload: store.currentList
+                });
+            }
+        }
+        asyncPublishCurrentList();
+    }
+    
 
     store.getPlaylistSize = function() {
         return store.currentList.songs.length;

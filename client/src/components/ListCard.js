@@ -97,7 +97,7 @@ function ListCard(props) {
     }
 
     function handlePublish(event, id) {
-        //
+        store.publishCurrentList(id);
     }
 
     function handleUndo() {
@@ -156,10 +156,16 @@ function ListCard(props) {
     
     let cardElement;
     let highlight;
+    let listens = 0;
+    let publishDate = "";
     if(store.selectedList !== null && store.selectedList._id === idNamePair._id){
         highlight = {backgroundColor: "grey"}
     }else{
         highlight = {backgroundColor: "lightgrey"}
+    }
+    if(store.currentList !== null && store.currentList.published){
+        publishDate = store.currentList.updatedAt;
+        listens = store.currentList.listens;
     }
     
     if(store.currentList !== null && store.currentList._id === idNamePair._id){
@@ -175,21 +181,24 @@ function ListCard(props) {
                     handleSelectList(event, idNamePair._id)
                 }}
             >
-                <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name} by: </Box>
-                <Box sx={{ p: 1 }}>
+                <Box style={{ p: 1, flexGrow: 1, fontSize: '16pt'}}>{idNamePair.name} by: {}</Box>
+                <Box style={{ p: 1, fontSize: '8pt' }}>
+                    Publish Date: {publishDate}
+                    <br/>
+                    Listens: {listens}
                 </Box>
                 <Box sx={{ p: 1 }}>
                     <IconButton onClick={handleLike}>
-                        <ThumbUpRoundedIcon style={{fontSize:'24pt'}} />0
+                        <ThumbUpRoundedIcon style={{fontSize:'20pt'}} />0
                     </IconButton>
                     <IconButton onClick={handleDislike}>
-                        <ThumbDownRoundedIcon style={{fontSize:'24pt'}} />0
+                        <ThumbDownRoundedIcon style={{fontSize:'20pt'}} />0
                     </IconButton>
                     <IconButton onClick={(event) => {handleEdit(event)}}>
-                        <EditRoundedIcon style={{fontSize:'24pt'}} />
+                        <EditRoundedIcon style={{fontSize:'20pt'}} />
                     </IconButton>
                     <IconButton onClick={(event) => {handleContract(event)}}>
-                        <ExpandLessRoundedIcon style={{fontSize:'24pt'}} />
+                        <ExpandLessRoundedIcon style={{fontSize:'20pt'}} />
                     </IconButton>
                 </Box>
             </ListItem>
@@ -238,21 +247,24 @@ function ListCard(props) {
                     handleSelectList(event, idNamePair._id)
                 }}
             >
-                <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name} by: </Box>
-                <Box sx={{ p: 1 }}>
+                <Box style={{ p: 1, flexGrow: 1, fontSize: '16pt'}}>{idNamePair.name} by: {}</Box>
+                <Box style={{ p: 1, fontSize: '8pt' }}>
+                    Publish Date: {publishDate}
+                    <br/>
+                    Listens: {listens}
                 </Box>
                 <Box sx={{ p: 1 }}>
                     <IconButton onClick={handleLike}>
-                        <ThumbUpRoundedIcon style={{fontSize:'24pt'}} />0
+                        <ThumbUpRoundedIcon style={{fontSize:'20pt'}} />0
                     </IconButton>
                     <IconButton onClick={handleDislike}>
-                        <ThumbDownRoundedIcon style={{fontSize:'24pt'}} />0
+                        <ThumbDownRoundedIcon style={{fontSize:'20pt'}} />0
                     </IconButton>
                     <IconButton onClick={(event) => {handleEdit(event)}}>
-                        <EditRoundedIcon style={{fontSize:'24pt'}} />
+                        <EditRoundedIcon style={{fontSize:'20pt'}} />
                     </IconButton>
                     <IconButton onClick={(event) => {handleExpand(event, idNamePair._id)}}>
-                        <ExpandMoreRoundedIcon style={{fontSize:'24pt'}} />
+                        <ExpandMoreRoundedIcon style={{fontSize:'20pt'}} />
                     </IconButton>
                 </Box>
             </ListItem>

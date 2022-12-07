@@ -39,13 +39,20 @@ export const updatePlaylistById = (id, playlist) => {
         playlist : playlist
     })
 }
+export const publishPlaylistById = (id, playlist) => {
+    return api.put(`/publishplaylist/${id}`, {
+        // SPECIFY THE PAYLOAD
+        playlist : playlist
+    })
+}
 
 const apis = {
     createPlaylist,
     deletePlaylistById,
     getPlaylistById,
     getPlaylistPairs,
-    updatePlaylistById
+    updatePlaylistById,
+    publishPlaylistById
 }
 
 export default apis
