@@ -70,6 +70,23 @@ body {
   border-radius: 10px;
 }
 
+#comment-screen {
+  height: 100%;
+}
+
+#comment-cards {
+  height: 85%;
+  overflow: scroll;
+  background-color: lightgrey;
+}
+
+#YT-controller {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
 #splash-screen {
   background-image: linear-gradient(to bottom, #898989, #e6e6e6);
   color: #a92f28;
@@ -294,6 +311,7 @@ body {
 .list-card-button {
   float: right;
   transform: scale(2);
+  font-size: 12px;
 }
 
 #workspace-home,

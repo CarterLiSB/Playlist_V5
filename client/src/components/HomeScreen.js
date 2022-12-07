@@ -10,6 +10,7 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography'
 
 import YouTubePlayerExample from './YTPlayer';
+import CommentScreen from './CommentScreen';
 
 import { Grid, Tabs, Tab } from '@mui/material'
 
@@ -26,6 +27,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import { Button } from '@mui/material';
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -35,6 +37,8 @@ const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
     const { auth } = useContext(AuthContext);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [onYTScreen, setonYTScreen] = useState(true);
+    const [text, setText] = useState("");
     const isMenuOpen = Boolean(anchorEl);
     let history = useHistory();
 
@@ -86,6 +90,26 @@ const HomeScreen = () => {
         //to do
     }
 
+    function handlePlayer() {
+        setonYTScreen(true);
+        console.log("Player!")
+    }
+
+    function handleComment() {
+        setonYTScreen(false);
+        console.log("Comments!")
+    }
+
+    function handleKeyPress(event) {
+        if (event.code === "Enter") {
+            console.log(text);
+        }
+    }
+
+    function handleUpdateText(event) {
+        setText(event.target.value);
+    }
+
     const sortMenu = (
         <Menu
             anchorEl={anchorEl}
@@ -113,6 +137,8 @@ const HomeScreen = () => {
                                 variant = "outlined"
                                 size = "small"
                                 label = "Search"
+                                onKeyPress={handleKeyPress}
+                                onChange={handleUpdateText}
                                 sx = {{borderRadius: 2, width: 650, bgcolor: "white"}}
                             ></TextField>
                             <IconButton onClick = {handleMenuOpen}><SortRoundedIcon sx = {{color: "white", fontSize: 36}}></SortRoundedIcon></IconButton>
@@ -124,14 +150,13 @@ const HomeScreen = () => {
             <Grid item xs = {6}>
                 <div>
                     { listCard }
+                    <MUIDeleteModal></MUIDeleteModal>
                 </div>
             </Grid>
             <Grid item xs = {6}>
-                <Tabs>
-                    <Tab label="Player"/>
-                    <Tab label="Comments"/>
-                </Tabs>
-                <YouTubePlayerExample></YouTubePlayerExample>
+                <Button onClick = {handlePlayer}>Player</Button>
+                <Button onClick = {handleComment}>Comments</Button>
+                {onYTScreen? <YouTubePlayerExample/>: <CommentScreen/>}
             </Grid>
             <Grid item xs = {12}>
                 <div id = "new-list-button">

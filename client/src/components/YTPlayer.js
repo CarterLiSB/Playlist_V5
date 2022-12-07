@@ -17,7 +17,7 @@ import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
 import FastForwardRoundedIcon from '@mui/icons-material/FastForwardRounded';
 import FastRewindRoundedIcon from '@mui/icons-material/FastRewindRounded';
-import { CardContent } from '@mui/material'
+import { Card, CardContent } from '@mui/material'
 
 export default function YouTubePlayerExample() {
     // THIS EXAMPLE DEMONSTRATES HOW TO DYNAMICALLY MAKE A
@@ -122,15 +122,16 @@ export default function YouTubePlayerExample() {
                 opts={playerOptions}
                 onReady={onPlayerReady}
                 onStateChange={onPlayerStateChange} />
-            <card sx = {{width: "75%", bgcolor: "white"}}>
+            <Card sx = {{width: "86%", bgcolor: "white"}}>
                 <CardContent>
                     <div>Playlist: </div>
                     <div>Song #: </div>
                     <div>Title: </div>
                     <div>Artist: </div>
                 </CardContent>
-            </card>
-            <Box sx = {{width: "40%", bgcolor: "lightgrey", borderRadius: "25px"}}>
+            </Card>
+            <br></br>
+            <Box id = "YT-controller" sx = {{width: "86%", bgcolor: "lightgrey", borderRadius: "25px"}}>
                 <IconButton onClick = {handleRewind()}><FastRewindRoundedIcon sx = {{color: "black", fontSize: 24}}></FastRewindRoundedIcon></IconButton>
                 <IconButton onClick = {handlePause()}><PauseRoundedIcon sx = {{color: "black", fontSize: 24}}></PauseRoundedIcon></IconButton>
                 <IconButton onClick = {handlePlay()}><PlayArrowRoundedIcon sx = {{color: "black", fontSize: 24}}></PlayArrowRoundedIcon></IconButton>

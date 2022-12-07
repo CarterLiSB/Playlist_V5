@@ -333,9 +333,6 @@ function GlobalStoreContextProvider(props) {
                 payload: newList
             }
             );
-
-            // IF IT'S A VALID LIST THEN LET'S START EDITING IT
-            history.push("/playlist/" + newList._id);
         }
         else {
             console.log("API FAILED TO CREATE A NEW LIST");
@@ -439,7 +436,6 @@ function GlobalStoreContextProvider(props) {
                         payload: playlist
                     });
                     tps.clearAllTransactions();
-                    history.push("/playlist/" + playlist._id);
                 }
             }
         }
@@ -597,7 +593,7 @@ function GlobalStoreContextProvider(props) {
     }
 
     store.getPublicLists = function() {
-        
+
     }
 
     return (

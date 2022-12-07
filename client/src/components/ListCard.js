@@ -2,10 +2,17 @@ import { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
 import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
+import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
+import ExpandLessRoundedIcon from '@mui/icons-material/ExpandLessRounded';
+import ThumbUpRoundedIcon from '@mui/icons-material/ThumbUpRounded';
+import ThumbDownRoundedIcon from '@mui/icons-material/ThumbDownRounded';
+import { Button } from '@mui/material';
+import { List } from '@mui/material';
+import SongCard from './SongCard';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
 
 /*
     This is a card in our list of top 5 lists. It lets select
@@ -19,6 +26,8 @@ function ListCard(props) {
     const [editActive, setEditActive] = useState(false);
     const [text, setText] = useState("");
     const { idNamePair, selected } = props;
+    const { song, index } = props;
+    const [isExpanded, setIsExpanded] = useState(false);
 
     function handleLoadList(event, id) {
         console.log("handleLoadList for " + id);
@@ -32,11 +41,6 @@ function ListCard(props) {
             // CHANGE THE CURRENT LIST
             store.setCurrentList(id);
         }
-    }
-
-    function handleToggleEdit(event) {
-        event.stopPropagation();
-        toggleEdit();
     }
 
     function toggleEdit() {
@@ -65,6 +69,52 @@ function ListCard(props) {
         setText(event.target.value);
     }
 
+    function handleExpand(event, id) {
+        event.stopPropagation();
+        //store.setCurrentList(idNamePair._id);
+        setIsExpanded(true);
+        handleLoadList(event, id)
+    }
+
+    function handleContract(event) {
+        event.stopPropagation();
+        setIsExpanded(false);
+        store.closeCurrentList();
+    }
+
+    function handleLike(event, id) {
+        //store.
+    }
+
+    function handleDislike(event, id) {
+        //store.
+    }
+
+    function handleDuplicate(event, id) {
+        //
+    }
+
+    function handlePublish(event, id) {
+        //
+    }
+
+    function handleUndo() {
+        store.undo();
+    }
+
+    function handleRedo() {
+        store.redo();
+    }
+
+    function handleAdd() {
+        store.addNewSong();
+    }
+
+    function handleEdit(event) {
+        event.stopPropagation();
+        toggleEdit();
+    }
+
     let selectClass = "unselected-list-card";
     if (selected) {
         selectClass = "selected-list-card";
@@ -73,32 +123,110 @@ function ListCard(props) {
     if (store.isListNameEditActive) {
         cardStatus = true;
     }
-    let cardElement =
-        <ListItem
-            id={idNamePair._id}
-            key={idNamePair._id}
-            sx={{ marginTop: '15px', display: 'flex' }}
-            style={{width: '100%', fontSize: '24pt'}}
-            button
-            onClick={(event) => {
-                handleLoadList(event, idNamePair._id)
-            }}
-        >
-            <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
-            <Box sx={{ p: 1 }}>
-                <IconButton onClick={handleToggleEdit} aria-label='edit'>
-                    <EditIcon style={{fontSize:'28pt'}} />
-                </IconButton>
-            </Box>
-            <Box sx={{ p: 1 }}>
-                <IconButton onClick={(event) => {
-                        handleDeleteList(event, idNamePair._id)
-                    }} aria-label='delete'>
-                    <DeleteIcon style={{fontSize:'28pt'}} />
-                </IconButton>
-            </Box>
-        </ListItem>
 
+//     <div
+//     id={'song-' + index + '-card'}
+// >
+//     {index + 1}.
+//     <a
+//         id={'song-' + index + '-link'}
+//         className="song-link"
+//         href={"https://www.youtube.com/watch?v=" + song.youTubeId}>
+//         {song.title} by {song.artist}
+//     </a>
+
+    let cardElement;
+    if(store.currentList !== null && store.currentList._id === idNamePair._id){
+        cardElement =
+        <Box>
+            <ListItem
+                id={idNamePair._id}
+                key={idNamePair._id}
+                sx={{ marginTop: '15px', display: 'flex' }}
+                style={{width: '100%', fontSize: '24pt'}}
+            >
+                <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name} by: </Box>
+                <Box sx={{ p: 1 }}>
+                </Box>
+                <Box sx={{ p: 1 }}>
+                    <IconButton onClick={handleLike}>
+                        <ThumbUpRoundedIcon style={{fontSize:'24pt'}} />0
+                    </IconButton>
+                    <IconButton onClick={handleDislike}>
+                        <ThumbDownRoundedIcon style={{fontSize:'24pt'}} />0
+                    </IconButton>
+                    <IconButton onClick={(event) => {handleEdit(event)}}>
+                        <EditRoundedIcon style={{fontSize:'24pt'}} />
+                    </IconButton>
+                    <IconButton onClick={(event) => {handleContract(event)}}>
+                        <ExpandLessRoundedIcon style={{fontSize:'24pt'}} />
+                    </IconButton>
+                </Box>
+            </ListItem>
+            <List>
+            {
+                store.currentList.songs.map((song, index) => (
+                    <SongCard
+                        id={'playlist-song-' + (index)}
+                        key={'playlist-song-' + (index)}
+                        index={index}
+                        song={song}
+                    />
+                ))  
+            }
+            </List>
+            <Button onClick={(event) => {handleUndo()}}>
+                Undo
+            </Button>
+            <Button onClick={(event) => {handleRedo()}}>
+                Redo
+            </Button>
+            <Button onClick={(event) => {handleAdd()}}>
+                Add
+            </Button>
+            <Button onClick={(event) => {handlePublish(event, idNamePair._id)}}>
+                Publish
+            </Button>
+            <Button onClick={(event) => {handleDeleteList(event, idNamePair._id)}}>
+                Delete
+            </Button>
+            <Button onClick={(event) => {handleDuplicate(event, idNamePair._id)}}>
+                Duplicate
+            </Button>
+        </Box>    
+    }else{
+        cardElement =
+        <Box>
+            <ListItem
+                id={idNamePair._id}
+                key={idNamePair._id}
+                sx={{ marginTop: '15px', display: 'flex' }}
+                style={{width: '100%', fontSize: '24pt'}}
+                // onClick={(event) => {
+                //     handleLoadList(event, idNamePair._id)
+                // }}
+            >
+                <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name} by: </Box>
+                <Box sx={{ p: 1 }}>
+                </Box>
+                <Box sx={{ p: 1 }}>
+                    <IconButton onClick={handleLike}>
+                        <ThumbUpRoundedIcon style={{fontSize:'24pt'}} />0
+                    </IconButton>
+                    <IconButton onClick={handleDislike}>
+                        <ThumbDownRoundedIcon style={{fontSize:'24pt'}} />0
+                    </IconButton>
+                    <IconButton onClick={(event) => {handleEdit(event)}}>
+                        <EditRoundedIcon style={{fontSize:'24pt'}} />
+                    </IconButton>
+                    <IconButton onClick={(event) => {handleExpand(event, idNamePair._id)}}>
+                        <ExpandMoreRoundedIcon style={{fontSize:'24pt'}} />
+                    </IconButton>
+                </Box>
+            </ListItem>
+        </Box>    
+    }
+    
     if (editActive) {
         cardElement =
             <TextField

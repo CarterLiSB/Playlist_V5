@@ -8,19 +8,20 @@ import { Typography } from '@mui/material'
     @author McKilla Gorilla
 */
 function Statusbar() {
-    const { store } = useContext(GlobalStoreContext);
-    let text ="";
-    let idName = "playlister-statusbar-hidden";
-    if (store.currentList){
-        text = store.currentList.name;
-        idName = "playlister-statusbar";
-    }    
-    else
-        idName = "playlister-statusbar-hidden";
+    // const { store } = useContext(GlobalStoreContext);
+    // let text ="";
+    // let idName = "playlister-statusbar-hidden";
+    // if (store.currentList){
+    //     text = store.currentList.name;
+    //     idName = "playlister-statusbar";
+    // }    
+    // else
+    //     idName = "playlister-statusbar-hidden";
     return (
-        <div id= {idName}>
-            <Typography variant="h4">{text}</Typography>
-        </div>
+        // <div id= {idName}>
+        //     <Typography variant="h4">{text}</Typography>
+        // </div>
+        <div></div>
     );
 }
 
