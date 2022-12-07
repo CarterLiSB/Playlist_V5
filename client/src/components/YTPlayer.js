@@ -25,17 +25,39 @@ export default function YouTubePlayerExample() {
     // DEMONSTRATES HOW TO IMPLEMENT A PLAYLIST THAT MOVES
     // FROM ONE SONG TO THE NEXT
 
-
+    const [ index, setIndex ] = useState(0);
     const { store } = useContext(GlobalStoreContext);
     // THIS HAS THE YOUTUBE IDS FOR THE SONGS IN OUR PLAYLIST
     let playlist = [
-        "mqmxkGjow1A",
-        "8RbXIMZmVv8",
-        "8UbNbor3OqQ"
-    ];
 
-    // THIS IS THE INDEX OF THE SONG CURRENTLY IN USE IN THE PLAYLIST
-    let currentSong = 0;
+    ];
+    let titles = [];
+    let artists = [];
+    let ids = [];
+    let listLength = -1;
+    let player;
+
+    let displayPlaylist = "";
+    let displayTitle = "";
+    let displayArtist = "";
+    let displayIndex = 0;
+
+    let song = "";
+
+    if(store.selectedList){
+        displayPlaylist = store.selectedList.name;
+        listLength = store.selectedList.songs.length;
+        if(listLength > 0){
+            for(let i = 0; i < listLength; i++){
+                titles[i] = store.selectedList.songs[i].title;
+                artists[i] = store.selectedList.songs[i].artist;
+                ids[i] = store.selectedList.songs[i].youTubeId;
+            }
+            displayIndex = index + 1;
+            displayTitle = store.selectedList.songs[index].title;
+            displayArtist = store.selectedList.songs[index].artist;
+        }
+    }
 
     const playerOptions = {
         height: '390',
@@ -49,25 +71,28 @@ export default function YouTubePlayerExample() {
     // THIS FUNCTION LOADS THE CURRENT SONG INTO
     // THE PLAYER AND PLAYS IT
     function loadAndPlayCurrentSong(player) {
-        let song = playlist[currentSong];
+        if(index < listLength){
+            song = ids[index];
+        }
         player.loadVideoById(song);
         player.playVideo();
+        console.log(song);
     }
 
     // THIS FUNCTION INCREMENTS THE PLAYLIST SONG TO THE NEXT ONE
     function incSong() {
-        currentSong++;
-        currentSong = currentSong % playlist.length;
+        setIndex(index + 1);
     }
 
     function decSong() {
-        currentSong--;
-        currentSong = currentSong % playlist.length;
+        setIndex(index - 1);
     }
 
     function onPlayerReady(event) {
         loadAndPlayCurrentSong(event.target);
         event.target.playVideo();
+        player = event.target;
+
     }
 
     function handleRewind(){
@@ -75,11 +100,11 @@ export default function YouTubePlayerExample() {
     }
 
     function handlePause(){
-        //event.stopVideo()
+        player.pauseVideo();
     }
 
     function handlePlay(){
-       //event.playVideo()
+       player.playVideo();
     }
     function handleSkip(){
         incSong();
@@ -91,7 +116,7 @@ export default function YouTubePlayerExample() {
     // VALUE OF 0 MEANS THE SONG PLAYING HAS ENDED.
     function onPlayerStateChange(event) {
         let playerStatus = event.data;
-        let player = event.target;
+        player = event.target;
         if (playerStatus === -1) {
             // VIDEO UNSTARTED
             console.log("-1 Video unstarted");
@@ -115,28 +140,48 @@ export default function YouTubePlayerExample() {
         }
     }
 
-    return (
-        <div>
-            <YouTube
-                videoId={playlist[currentSong]}
-                opts={playerOptions}
-                onReady={onPlayerReady}
-                onStateChange={onPlayerStateChange} />
-            <Card sx = {{width: "86%", bgcolor: "white"}}>
-                <CardContent>
-                    <div>Playlist: </div>
-                    <div>Song #: </div>
-                    <div>Title: </div>
-                    <div>Artist: </div>
-                </CardContent>
-            </Card>
-            <br></br>
-            <Box id = "YT-controller" sx = {{width: "86%", bgcolor: "lightgrey", borderRadius: "25px"}}>
-                <IconButton onClick = {handleRewind()}><FastRewindRoundedIcon sx = {{color: "black", fontSize: 24}}></FastRewindRoundedIcon></IconButton>
-                <IconButton onClick = {handlePause()}><PauseRoundedIcon sx = {{color: "black", fontSize: 24}}></PauseRoundedIcon></IconButton>
-                <IconButton onClick = {handlePlay()}><PlayArrowRoundedIcon sx = {{color: "black", fontSize: 24}}></PlayArrowRoundedIcon></IconButton>
-                <IconButton onClick = {handleSkip()}><FastForwardRoundedIcon sx = {{color: "black", fontSize: 24}}></FastForwardRoundedIcon></IconButton>
-            </Box>
-        </div>
-    )
+    if(ids[index]){
+        return (
+            <div>
+                <YouTube
+                    videoId={ids[index]}
+                    opts={playerOptions}
+                    onReady={onPlayerReady}
+                    onStateChange={onPlayerStateChange} />
+                <Card sx = {{width: "86%", bgcolor: "white"}}>
+                    <CardContent>
+                        <div>Now Playing</div>
+                        <div>Playlist: {displayPlaylist}</div>
+                        <div>Song #: {displayIndex}</div>
+                        <div>Title: {displayTitle}</div>
+                        <div>Artist: {displayArtist}</div>
+                    </CardContent>
+                </Card>
+                <br></br>
+                <Box id = "YT-controller" sx = {{width: "86%", bgcolor: "lightgrey", borderRadius: "25px"}}>
+                    <IconButton onClick = {handleRewind}><FastRewindRoundedIcon sx = {{color: "black", fontSize: 24}}></FastRewindRoundedIcon></IconButton>
+                    <IconButton onClick = {handlePause}><PauseRoundedIcon sx = {{color: "black", fontSize: 24}}></PauseRoundedIcon></IconButton>
+                    <IconButton onClick = {handlePlay}><PlayArrowRoundedIcon sx = {{color: "black", fontSize: 24}}></PlayArrowRoundedIcon></IconButton>
+                    <IconButton onClick = {handleSkip}><FastForwardRoundedIcon sx = {{color: "black", fontSize: 24}}></FastForwardRoundedIcon></IconButton>
+                </Box>
+            </div>
+        )
+    }else{
+        return (
+            <div>
+                <Card sx = {{width: "86%", bgcolor: "white"}}>
+                    <CardContent>
+                        <div>Nothing playing!</div>
+                    </CardContent>
+                </Card>
+                <br></br>
+                <Box id = "YT-controller" sx = {{width: "86%", bgcolor: "lightgrey", borderRadius: "25px"}}>
+                    <IconButton onClick = {handleRewind}><FastRewindRoundedIcon sx = {{color: "black", fontSize: 24}}></FastRewindRoundedIcon></IconButton>
+                    <IconButton onClick = {handlePause}><PauseRoundedIcon sx = {{color: "black", fontSize: 24}}></PauseRoundedIcon></IconButton>
+                    <IconButton onClick = {handlePlay}><PlayArrowRoundedIcon sx = {{color: "black", fontSize: 24}}></PlayArrowRoundedIcon></IconButton>
+                    <IconButton onClick = {handleSkip}><FastForwardRoundedIcon sx = {{color: "black", fontSize: 24}}></FastForwardRoundedIcon></IconButton>
+                </Box>
+            </div>
+        )
+    }
 }

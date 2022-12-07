@@ -13,6 +13,8 @@ import { Button } from '@mui/material';
 import { List } from '@mui/material';
 import SongCard from './SongCard';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import MUIRemoveSongModal from './MUIRemoveSongModal';
+import MUIEditSongModal from './MUIEditSongModal';
 
 /*
     This is a card in our list of top 5 lists. It lets select
@@ -124,6 +126,23 @@ function ListCard(props) {
         cardStatus = true;
     }
 
+    function handleSelectList(event, id) {
+        if (!event.target.disabled) {
+            let _id = event.target.id;
+            if (_id.indexOf('list-card-text-') >= 0)
+                _id = ("" + _id).substring("list-card-text-".length);
+            store.setSelectedList(id);
+        }
+    }
+
+    let modalJSX = "";
+    if (store.isEditSongModalOpen()) {
+        modalJSX = <MUIEditSongModal />;
+    }
+    else if (store.isRemoveSongModalOpen()) {
+        modalJSX = <MUIRemoveSongModal />;
+    }
+
 //     <div
 //     id={'song-' + index + '-card'}
 // >
@@ -134,16 +153,27 @@ function ListCard(props) {
 //         href={"https://www.youtube.com/watch?v=" + song.youTubeId}>
 //         {song.title} by {song.artist}
 //     </a>
-
+    
     let cardElement;
+    let highlight;
+    if(store.selectedList !== null && store.selectedList._id === idNamePair._id){
+        highlight = {backgroundColor: "grey"}
+    }else{
+        highlight = {backgroundColor: "lightgrey"}
+    }
+    
     if(store.currentList !== null && store.currentList._id === idNamePair._id){
         cardElement =
-        <Box>
+        <Box style = {highlight}>
             <ListItem
                 id={idNamePair._id}
                 key={idNamePair._id}
                 sx={{ marginTop: '15px', display: 'flex' }}
                 style={{width: '100%', fontSize: '24pt'}}
+                button
+                onClick={(event) => {
+                    handleSelectList(event, idNamePair._id)
+                }}
             >
                 <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name} by: </Box>
                 <Box sx={{ p: 1 }}>
@@ -175,6 +205,7 @@ function ListCard(props) {
                 ))  
             }
             </List>
+            { modalJSX }
             <Button onClick={(event) => {handleUndo()}}>
                 Undo
             </Button>
@@ -196,15 +227,16 @@ function ListCard(props) {
         </Box>    
     }else{
         cardElement =
-        <Box>
+        <Box style = {highlight}>
             <ListItem
                 id={idNamePair._id}
                 key={idNamePair._id}
                 sx={{ marginTop: '15px', display: 'flex' }}
                 style={{width: '100%', fontSize: '24pt'}}
-                // onClick={(event) => {
-                //     handleLoadList(event, idNamePair._id)
-                // }}
+                button
+                onClick={(event) => {
+                    handleSelectList(event, idNamePair._id)
+                }}
             >
                 <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name} by: </Box>
                 <Box sx={{ p: 1 }}>

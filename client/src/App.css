@@ -180,7 +180,7 @@ body {
 #new-list-button {
   font-size: 24pt;
   color: black;
-  display:flex;
+  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -283,6 +283,7 @@ body {
   margin: 10px;
   padding: 20px;
   border-radius: 25px;
+  overflow-y: scroll;
 }
 
 .list-card:aria-disabled,

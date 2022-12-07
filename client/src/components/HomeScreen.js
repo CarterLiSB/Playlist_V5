@@ -52,7 +52,7 @@ const HomeScreen = () => {
     let listCard = "";
     if (store) {
         listCard = 
-            <List sx={{ width: '90%', left: '5%', bgcolor: 'background.paper' }}>
+            <List sx={{ width: '90%', left: '5%', bgcolor: 'background.paper'}}>
             {
                 store.idNamePairs.map((pair) => (
                     <ListCard
@@ -148,12 +148,12 @@ const HomeScreen = () => {
                 </Box>
             </Grid>
             <Grid item xs = {6}>
-                <div>
+                <div style = {{overflowY: 'scroll', maxHeight:'85%'}}>
                     { listCard }
                     <MUIDeleteModal></MUIDeleteModal>
                 </div>
             </Grid>
-            <Grid item xs = {6}>
+            <Grid item xs = {6} >
                 <Button onClick = {handlePlayer}>Player</Button>
                 <Button onClick = {handleComment}>Comments</Button>
                 {onYTScreen? <YouTubePlayerExample/>: <CommentScreen/>}
