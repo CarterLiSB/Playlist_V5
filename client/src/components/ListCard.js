@@ -93,7 +93,7 @@ function ListCard(props) {
     }
 
     function handleDuplicate(event, id) {
-        //
+        store.duplicateList(id);
     }
 
     function handlePublish(event, id) {

@@ -36,7 +36,8 @@ export const GlobalStoreActionType = {
     CHANGE_LIKES: "CHANGE_LIKES",
     CHANGE_DISLIKES: "CHANGE_DISLIKES",
     GET_PUBLIC_LISTS: "GET_PUBLIC_LISTS",
-    SET_SELECTED_LIST: "SET_SELECTED_LIST"
+    SET_SELECTED_LIST: "SET_SELECTED_LIST",
+    DUPLICATE_LIST: "DUPLICATE_LIST"
     //publish needed
 }
 
@@ -299,6 +300,20 @@ function GlobalStoreContextProvider(props) {
                     selectedList: payload
                 });
             }
+            case GlobalStoreActionType.DUPLICATE_LIST: {                
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    idNamePairs: store.idNamePairs,
+                    currentList: store.currentList,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter + 1,
+                    listNameActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null,
+                    selectedList: store.selectedList
+                })
+            }
 
             default:
                 return store;
@@ -486,11 +501,27 @@ function GlobalStoreContextProvider(props) {
                         type: GlobalStoreActionType.SET_SELECTED_LIST,
                         payload: playlist
                     });
-                    tps.clearAllTransactions();
                 }
             }
         }
         asyncSetSelectedList(id);
+    }
+
+    store.duplicateList = async function () {
+        const response = await api.createPlaylist(store.currentList.name, store.currentList.songs, auth.user.email);
+        console.log("duplicateList response: " + response);
+        if (response.status === 201) {
+            tps.clearAllTransactions();
+            let newList = response.data.playlist;
+            storeReducer({
+                type: GlobalStoreActionType.DUPLICATE_LIST,
+                payload: newList
+            }
+            );
+        }
+        else {
+            console.log("API FAILED TO DUPLICATE LIST");
+        }
     }
 
     store.getPlaylistSize = function() {
