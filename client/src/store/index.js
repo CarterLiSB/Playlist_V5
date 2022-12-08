@@ -758,6 +758,53 @@ function GlobalStoreContextProvider(props) {
         return (store.currentList !== null);
     }
 
+    store.sortByName = async function() {
+        store.idNamePairs.sort(function(a, b){
+            if(a.name.toLowerCase() < b.name.toLowerCase()){
+                return -1;
+            }
+            if(a.name.toLowerCase() > b.name.toLowerCase){
+                return 1;
+            }
+            return 0;
+        });
+        history.push(0)
+    }
+
+    store.sortByDate = async function() {
+        store.idNamePairs.sort(function(a, b){
+            if(!a.published){
+                return 1;
+            }
+            if(!b.published){
+                return -1;
+            }
+            return a.updatedAt - b.updatedAt;
+        });
+        history.push(0)
+    }
+
+    store.sortByListens = async function() {
+        store.idNamePairs.sort(function(a, b){
+            return b.listens - a.listens;
+        });
+        history.push(0)
+    }
+
+    store.sortByLikes = async function() {
+        store.idNamePairs.sort(function(a, b){
+            return b.likes - a.likes;
+        });
+        history.push(0)
+    }
+
+    store.sortByDislikes = async function() {
+        store.idNamePairs.sort(function(a, b){
+            return b.dislikes - a.dislikes;
+        });
+        history.push(0)
+    }
+
     // THIS FUNCTION ENABLES THE PROCESS OF EDITING A LIST NAME
     store.setIsListNameEditActive = function () {
         storeReducer({

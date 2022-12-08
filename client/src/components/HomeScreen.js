@@ -85,11 +85,6 @@ const HomeScreen = () => {
         history.push("/userscreen/");
     }
 
-    function handleSort(order) {
-        
-        //to do
-    }
-
     function handlePlayer() {
         setonYTScreen(true);
         console.log("Player!")
@@ -110,17 +105,42 @@ const HomeScreen = () => {
         setText(event.target.value);
     }
 
+    function handleSortName(){
+        setAnchorEl(null);
+        store.sortByName();
+    }
+
+    function handleSortDate(){
+        setAnchorEl(null);
+        store.sortByDate();
+    }
+
+    function handleSortListens(){
+        setAnchorEl(null);
+        store.sortByListens();
+    }
+
+    function handleSortLikes(){
+        setAnchorEl(null);
+        store.sortByLikes();
+    }
+
+    function handleSortDislikes(){
+        setAnchorEl(null);
+        store.sortByDislikes();
+    }
+
     const sortMenu = (
         <Menu
             anchorEl={anchorEl}
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem id = "sort-menu" onClick = {handleSort("name")}>Name (A - Z)</MenuItem>
-            <MenuItem id = "sort-menu" onClick = {handleSort("date")}>Publish Date (Newest)</MenuItem>
-            <MenuItem id = "sort-menu" onClick = {handleSort("listens")}>Listens (High - Low)</MenuItem>
-            <MenuItem id = "sort-menu" onClick = {handleSort("likes")}>Likes (High - Low)</MenuItem>
-            <MenuItem id = "sort-menu" onClick = {handleSort("dislikes")}>Dislikes (High - Low)</MenuItem>
+            <MenuItem id = "sort-menu" onClick = {handleSortName}>Name (A - Z)</MenuItem>
+            <MenuItem id = "sort-menu" onClick = {handleSortDate}>Publish Date (Newest)</MenuItem>
+            <MenuItem id = "sort-menu" onClick = {handleSortListens}>Listens (High - Low)</MenuItem>
+            <MenuItem id = "sort-menu" onClick = {handleSortLikes}>Likes (High - Low)</MenuItem>
+            <MenuItem id = "sort-menu" onClick = {handleSortDislikes}>Dislikes (High - Low)</MenuItem>
         </Menu>
     );
 
