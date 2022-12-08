@@ -46,13 +46,37 @@ export const publishPlaylistById = (id, playlist) => {
     })
 }
 
+export const addCommentById = (id, playlist, username, comment) => {
+    return api.put(`/addcomment/${id}`, {
+        // SPECIFY THE PAYLOAD
+        playlist : playlist,
+        username: username,
+        comment: comment
+    })
+}
+export const likePlaylistById = (id) => {
+    return api.put(`/likeplaylist/${id}`, {
+        // SPECIFY THE PAYLOAD
+
+    })
+}
+export const dislikePlaylistById = (id) => {
+    return api.put(`/dislikeplaylist/${id}`, {
+        // SPECIFY THE PAYLOAD
+
+    })
+}
+
 const apis = {
     createPlaylist,
     deletePlaylistById,
     getPlaylistById,
     getPlaylistPairs,
     updatePlaylistById,
-    publishPlaylistById
+    publishPlaylistById,
+    addCommentById,
+    likePlaylistById,
+    dislikePlaylistById
 }
 
 export default apis

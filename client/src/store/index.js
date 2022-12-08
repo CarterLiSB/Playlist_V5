@@ -38,7 +38,10 @@ export const GlobalStoreActionType = {
     GET_PUBLIC_LISTS: "GET_PUBLIC_LISTS",
     SET_SELECTED_LIST: "SET_SELECTED_LIST",
     DUPLICATE_LIST: "DUPLICATE_LIST",
-    PUBLISH_LIST: "PUBLISH_LIST"
+    PUBLISH_LIST: "PUBLISH_LIST",
+    ADD_COMMENT: "ADD_COMMENT",
+    LIKE_LIST: "LIKE_LIST",
+    DISLIKE_LIST: "DISLIKE_LIST"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -328,6 +331,48 @@ function GlobalStoreContextProvider(props) {
                     selectedList: store.selectedList
                 })
             }
+            case GlobalStoreActionType.ADD_COMMENT: {                
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    idNamePairs: store.idNamePairs,
+                    currentList: store.currentList,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter + 1,
+                    listNameActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null,
+                    selectedList: store.selectedList
+                })
+            }
+            case GlobalStoreActionType.LIKE_LIST: {                
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    idNamePairs: store.idNamePairs,
+                    currentList: store.currentList,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter + 1,
+                    listNameActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null,
+                    selectedList: store.selectedList
+                })
+            }
+            case GlobalStoreActionType.DISLIKE_LIST: {                
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    idNamePairs: store.idNamePairs,
+                    currentList: store.currentList,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter + 1,
+                    listNameActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null,
+                    selectedList: store.selectedList
+                })
+            }
 
             default:
                 return store;
@@ -386,18 +431,8 @@ function GlobalStoreContextProvider(props) {
         let newListName = "Untitled" + store.newListCounter;
         const response = await api.createPlaylist(newListName, [], auth.user.email);
         console.log("createNewList response: " + response);
-        if (response.status === 201) {
-            tps.clearAllTransactions();
-            let newList = response.data.playlist;
-            storeReducer({
-                type: GlobalStoreActionType.CREATE_NEW_LIST,
-                payload: newList
-            }
-            );
-        }
-        else {
-            console.log("API FAILED TO CREATE A NEW LIST");
-        }
+
+        history.go(0)
     }
 
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
@@ -550,6 +585,50 @@ function GlobalStoreContextProvider(props) {
         }
         asyncPublishCurrentList();
     }
+
+    store.addComment = function(comment) {
+        console.log("hi");
+        async function asyncAddComment() {
+            const response = await api.addCommentById(store.selectedList._id, store.selectedList, auth.user.username, comment);
+            if (response.data.success) {
+                storeReducer({
+                    type: GlobalStoreActionType.ADD_COMMENT,
+                    payload: store.selectedList
+                });
+            }
+        }
+        asyncAddComment();
+    }
+
+    store.likePlaylist = function(id,callback) {
+        console.log("liking playlist");
+        async function asyncLikePlaylist() {
+            const response = await api.likePlaylistById(id);
+            if (response.data.success) {
+                callback(response.data.likes)
+                storeReducer({
+                    type: GlobalStoreActionType.LIKE_LIST,
+                    payload: store.selectedList
+                });
+            }
+        }
+        asyncLikePlaylist();
+    }
+
+    store.dislikePlaylist = function(id, callback) {
+        console.log("disliking playlist");
+        async function asyncDislikePlaylist() {
+            const response = await api.dislikePlaylistById(id);
+            if (response.data.success) {
+                callback(response.data.dislikes)
+                storeReducer({
+                    type: GlobalStoreActionType.DISLIKE_LIST,
+                    payload: store.selectedList
+                });
+            }
+        }
+        asyncDislikePlaylist();
+    }
     
 
     store.getPlaylistSize = function() {
@@ -692,18 +771,6 @@ function GlobalStoreContextProvider(props) {
             type: GlobalStoreActionType.UNMARK_LIST_FOR_DELETION,
             payload: { playlist: null}
         }); 
-    }
-
-    store.changeLikes = function(id) {
-
-    }
-
-    store.changeDislikes = function(id) {
-
-    }
-
-    store.getPublicLists = function() {
-
     }
 
     return (

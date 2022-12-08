@@ -17,7 +17,7 @@ const playlistSchema = new Schema(
         datePublished: { type: String, required: false },
         comments: { type: [{
             username: String,
-            text: String
+            comment: String
         }], required: false},
         songs: { type: [{
             title: String,

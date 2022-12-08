@@ -31,6 +31,9 @@ function ListCard(props) {
     const { song, index } = props;
     const [isExpanded, setIsExpanded] = useState(false);
 
+    const [likes, setLikes] = useState(-1)
+    const [dislikes, setDislikes] = useState(-1)
+
     function handleLoadList(event, id) {
         console.log("handleLoadList for " + id);
         if (!event.target.disabled) {
@@ -85,11 +88,21 @@ function ListCard(props) {
     }
 
     function handleLike(event, id) {
-        //store.
+        event.stopPropagation();
+        store.likePlaylist(id, handleLikeCallback);
+    }
+
+    const handleLikeCallback = (returnedLikes) => {
+        setLikes(returnedLikes)
+    }
+
+    const handleDislikeCallback = (returnedDislikes) => {
+        setDislikes(returnedDislikes)
     }
 
     function handleDislike(event, id) {
-        //store.
+        event.stopPropagation();
+        store.dislikePlaylist(id, handleDislikeCallback);
     }
 
     function handleDuplicate(event, id) {
@@ -156,6 +169,7 @@ function ListCard(props) {
     
     let cardElement;
     let highlight;
+    let publishHighlight;
     let listens = 0;
     let publishDate = "";
     if(store.selectedList !== null && store.selectedList._id === idNamePair._id){
@@ -166,6 +180,7 @@ function ListCard(props) {
     if(store.currentList !== null && store.currentList.published){
         publishDate = store.currentList.updatedAt;
         listens = store.currentList.listens;
+        publishHighlight = {backgroundColor: "yellow"}
     }
     
     if(store.currentList !== null && store.currentList._id === idNamePair._id){
@@ -188,11 +203,11 @@ function ListCard(props) {
                     Listens: {listens}
                 </Box>
                 <Box sx={{ p: 1 }}>
-                    <IconButton onClick={handleLike}>
-                        <ThumbUpRoundedIcon style={{fontSize:'20pt'}} />0
+                    <IconButton onClick={(e) => handleLike(e, idNamePair._id)}>
+                        <ThumbUpRoundedIcon style={{fontSize:'20pt'}} /> {likes > -1 ? likes : idNamePair.likes}
                     </IconButton>
-                    <IconButton onClick={handleDislike}>
-                        <ThumbDownRoundedIcon style={{fontSize:'20pt'}} />0
+                    <IconButton onClick={(e) => handleDislike(e, idNamePair._id)}>
+                        <ThumbDownRoundedIcon style={{fontSize:'20pt'}} /> {dislikes > -1 ? dislikes : idNamePair.dislikes}
                     </IconButton>
                     <IconButton onClick={(event) => {handleEdit(event)}}>
                         <EditRoundedIcon style={{fontSize:'20pt'}} />
@@ -254,11 +269,11 @@ function ListCard(props) {
                     Listens: {listens}
                 </Box>
                 <Box sx={{ p: 1 }}>
-                    <IconButton onClick={handleLike}>
-                        <ThumbUpRoundedIcon style={{fontSize:'20pt'}} />0
+                <IconButton onClick={(e) => handleLike(e, idNamePair._id)}>
+                        <ThumbUpRoundedIcon style={{fontSize:'20pt'}} /> {likes > -1 ? likes : idNamePair.likes}
                     </IconButton>
-                    <IconButton onClick={handleDislike}>
-                        <ThumbDownRoundedIcon style={{fontSize:'20pt'}} />0
+                    <IconButton onClick={(e) => handleDislike(e, idNamePair._id)}>
+                        <ThumbDownRoundedIcon style={{fontSize:'20pt'}} /> {dislikes > -1 ? dislikes : idNamePair.dislikes}
                     </IconButton>
                     <IconButton onClick={(event) => {handleEdit(event)}}>
                         <EditRoundedIcon style={{fontSize:'20pt'}} />

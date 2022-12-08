@@ -26,24 +26,42 @@ import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
 
 export default function CommentScreen() {
-    function handleKeyPress(){
-        
+    const { store } = useContext(GlobalStoreContext);
+    let numComments = 0;
+
+    function handleSend() {
+        let comment = document.getElementById("comment-text").value;
+        store.addComment(comment);
     }
 
-    return (
-        <div id = "comment-screen">
-            <div id = 'comment-cards'>
-                
-            </div>
-            <TextField
-                variant = "outlined"
-                size = "small"
-                label = "Add Comment"
-                sx = {{borderRadius: 2, width: 650, bgcolor: "white"}}
-            ></TextField>
-        </div>    
-    )
+    if(store.selectedList){
+        return (
+            <div id = "comment-screen">
+                {store.selectedList.comments.map((comment) => 
+                    (
+                        <div id = {numComments++}>
+                            {comment.username}:
+                            {comment.comment}
+                        </div>
+                    )
+                )}
+                <TextField
+                    id = "comment-text"
+                    variant = "outlined"
+                    size = "small"
+                    label = "Add Comment"
+                    sx = {{borderRadius: 2, width: 650, bgcolor: "white"}}
+                ></TextField>
+                <IconButton onClick={handleSend}>
+                    <SendRoundedIcon style={{fontSize:'20pt'}} />
+                </IconButton>
+            </div>    
+        )
+    }else{
+        return(<div>Nothing here!</div>);
+    }
 
 }

@@ -48,7 +48,6 @@ const HomeScreen = () => {
 
     function handleCreateNewList() {
         store.createNewList();
-        store.loadIdNamePairs()
     }
     let listCard = "";
     if (store) {
