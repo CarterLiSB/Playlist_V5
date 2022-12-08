@@ -461,6 +461,60 @@ dislikePlaylistById = async (req, res) => {
     })
 }
 
+viewPlaylist = async (req, res) => {
+    const body = req.body
+    console.log("updatePlaylist: " + JSON.stringify(body));
+    console.log("req.body.name: " + req.body.name);
+
+    if (!body) {
+        return res.status(400).json({
+            success: false,
+            error: 'You must provide a body to update',
+        })
+    }
+
+    Playlist.findOne({ _id: req.params.id }, (err, playlist) => {
+        console.log("playlist found: " + JSON.stringify(playlist));
+        if (err) {
+            return res.status(404).json({
+                err,
+                message: 'Playlist not found!',
+            })
+        }
+
+        // DOES THIS LIST BELONG TO THIS USER?
+        // async function asyncFindUser(list) {
+        //     await User.findOne({ email: list.ownerEmail }, (err, user) => {
+        //         console.log("user._id: " + user._id);
+        //         console.log("req.userId: " + req.userId);
+        //         if (user._id == req.userId) {
+        //             console.log("correct user!");
+        //             console.log("req.body.name: " + req.body.name);
+
+        //             list.name = body.playlist.name;
+        //             list.songs = body.playlist.songs;
+        //             list
+        playlist.listens = playlist.listens + 1
+        playlist
+        .save()
+        .then(() => {
+            console.log("SUCCESS!!!");
+            return res.status(200).json({
+                success: true,
+                id: playlist._id,
+                message: 'Playlist updated!',
+            })
+        })
+        .catch(error => {
+            console.log("FAILURE: " + JSON.stringify(error));
+            return res.status(404).json({
+                error,
+                message: 'Playlist not updated!',
+            })
+        })
+    })
+}
+
 module.exports = {
     createPlaylist,
     deletePlaylist,
@@ -471,5 +525,6 @@ module.exports = {
     publishPlaylist,
     addCommentById,
     likePlaylistById,
-    dislikePlaylistById
+    dislikePlaylistById,
+    viewPlaylist
 }

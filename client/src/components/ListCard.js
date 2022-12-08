@@ -145,6 +145,8 @@ function ListCard(props) {
             if (_id.indexOf('list-card-text-') >= 0)
                 _id = ("" + _id).substring("list-card-text-".length);
             store.setSelectedList(id);
+            //store.viewList(id);
+            idNamePair.listens = 1;
         }
     }
 

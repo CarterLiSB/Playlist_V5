@@ -66,6 +66,12 @@ export const dislikePlaylistById = (id) => {
 
     })
 }
+export const viewPlaylistById = (id, playlist) => {
+    return api.put(`/viewplaylist/${id}`, {
+        // SPECIFY THE PAYLOAD
+        playlist : playlist
+    })
+}
 
 const apis = {
     createPlaylist,
@@ -76,7 +82,8 @@ const apis = {
     publishPlaylistById,
     addCommentById,
     likePlaylistById,
-    dislikePlaylistById
+    dislikePlaylistById,
+    viewPlaylistById
 }
 
 export default apis

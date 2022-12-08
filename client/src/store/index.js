@@ -41,7 +41,8 @@ export const GlobalStoreActionType = {
     PUBLISH_LIST: "PUBLISH_LIST",
     ADD_COMMENT: "ADD_COMMENT",
     LIKE_LIST: "LIKE_LIST",
-    DISLIKE_LIST: "DISLIKE_LIST"
+    DISLIKE_LIST: "DISLIKE_LIST",
+    VIEW_LIST: "VIEW_LIST"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -373,6 +374,20 @@ function GlobalStoreContextProvider(props) {
                     selectedList: store.selectedList
                 })
             }
+            case GlobalStoreActionType.VIEW_LIST: {                
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    idNamePairs: store.idNamePairs,
+                    currentList: store.currentList,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter + 1,
+                    listNameActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null,
+                    selectedList: store.selectedList
+                })
+            }
 
             default:
                 return store;
@@ -543,7 +558,6 @@ function GlobalStoreContextProvider(props) {
             let response = await api.getPlaylistById(id);
             if (response.data.success) {
                 let playlist = response.data.playlist;
-
                 response = await api.updatePlaylistById(playlist._id, playlist);
                 if (response.data.success) {
                     storeReducer({
@@ -628,6 +642,19 @@ function GlobalStoreContextProvider(props) {
             }
         }
         asyncDislikePlaylist();
+    }
+
+    store.viewPlaylist = function() {
+        async function asyncViewList() {
+            const response = await api.viewPlaylistById(store.selectedList._id, store.selectedList);
+            if (response.data.success) {
+                storeReducer({
+                    type: GlobalStoreActionType.SET_SELECTED_LIST,
+                    payload: store.selectedList
+                });
+            }
+        }
+        asyncViewList();
     }
     
 
