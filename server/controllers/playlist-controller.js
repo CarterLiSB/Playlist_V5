@@ -142,7 +142,10 @@ getPlaylistPairs = async (req, res) => {
                             _id: list._id,
                             name: list.name,
                             likes: list.likes,
-                            dislikes: list.dislikes
+                            dislikes: list.dislikes,
+                            published: list.published,
+                            listens: list.listens,
+                            updatedAt: list.updatedAt
                         };
                         pairs.push(pair);
                     }

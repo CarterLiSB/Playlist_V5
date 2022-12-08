@@ -176,10 +176,10 @@ export default function YouTubePlayerExample() {
                 </Card>
                 <br></br>
                 <Box id = "YT-controller" sx = {{width: "86%", bgcolor: "lightgrey", borderRadius: "25px"}}>
-                    <IconButton onClick = {handleRewind}><FastRewindRoundedIcon sx = {{color: "black", fontSize: 24}}></FastRewindRoundedIcon></IconButton>
-                    <IconButton onClick = {handlePause}><PauseRoundedIcon sx = {{color: "black", fontSize: 24}}></PauseRoundedIcon></IconButton>
-                    <IconButton onClick = {handlePlay}><PlayArrowRoundedIcon sx = {{color: "black", fontSize: 24}}></PlayArrowRoundedIcon></IconButton>
-                    <IconButton onClick = {handleSkip}><FastForwardRoundedIcon sx = {{color: "black", fontSize: 24}}></FastForwardRoundedIcon></IconButton>
+                    <IconButton disabled onClick = {handleRewind}><FastRewindRoundedIcon sx = {{color: "black", fontSize: 24}}></FastRewindRoundedIcon></IconButton>
+                    <IconButton disabled onClick = {handlePause}><PauseRoundedIcon sx = {{color: "black", fontSize: 24}}></PauseRoundedIcon></IconButton>
+                    <IconButton disabled onClick = {handlePlay}><PlayArrowRoundedIcon sx = {{color: "black", fontSize: 24}}></PlayArrowRoundedIcon></IconButton>
+                    <IconButton disabled onClick = {handleSkip}><FastForwardRoundedIcon sx = {{color: "black", fontSize: 24}}></FastForwardRoundedIcon></IconButton>
                 </Box>
             </div>
         )

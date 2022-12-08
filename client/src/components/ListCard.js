@@ -172,16 +172,24 @@ function ListCard(props) {
     let publishHighlight;
     let listens = 0;
     let publishDate = "";
-    if(store.selectedList !== null && store.selectedList._id === idNamePair._id){
+    if(idNamePair.published){
+        listens = idNamePair.listens;
         highlight = {backgroundColor: "grey"}
+        if(idNamePair.updatedAt){
+            publishDate = idNamePair.updatedAt;
+        }
     }else{
-        highlight = {backgroundColor: "lightgrey"}
+        highlight = {backgroundColor: "lightgrey"} 
+        publishDate = "Not yet published!"
     }
-    if(store.currentList !== null && store.currentList.published){
-        publishDate = store.currentList.updatedAt;
-        listens = store.currentList.listens;
-        publishHighlight = {backgroundColor: "yellow"}
+    if(store.selectedList !== null && store.selectedList._id === idNamePair._id){
+        highlight = {backgroundColor: "red"}
+    }else{
+        if(!idNamePair.published){
+            highlight = {backgroundColor: "lightgrey"}
+        }
     }
+    
     
     if(store.currentList !== null && store.currentList._id === idNamePair._id){
         cardElement =
@@ -203,13 +211,13 @@ function ListCard(props) {
                     Listens: {listens}
                 </Box>
                 <Box sx={{ p: 1 }}>
-                    <IconButton onClick={(e) => handleLike(e, idNamePair._id)}>
+                    <IconButton disabled = {!idNamePair.published} onClick={(e) => handleLike(e, idNamePair._id)}>
                         <ThumbUpRoundedIcon style={{fontSize:'20pt'}} /> {likes > -1 ? likes : idNamePair.likes}
                     </IconButton>
-                    <IconButton onClick={(e) => handleDislike(e, idNamePair._id)}>
+                    <IconButton disabled = {!idNamePair.published} onClick={(e) => handleDislike(e, idNamePair._id)}>
                         <ThumbDownRoundedIcon style={{fontSize:'20pt'}} /> {dislikes > -1 ? dislikes : idNamePair.dislikes}
                     </IconButton>
-                    <IconButton onClick={(event) => {handleEdit(event)}}>
+                    <IconButton disabled = {idNamePair.published} onClick={(event) => {handleEdit(event)}}>
                         <EditRoundedIcon style={{fontSize:'20pt'}} />
                     </IconButton>
                     <IconButton onClick={(event) => {handleContract(event)}}>
@@ -230,16 +238,16 @@ function ListCard(props) {
             }
             </List>
             { modalJSX }
-            <Button onClick={(event) => {handleUndo()}}>
+            <Button disabled = {!store.canUndo() || store.currentList.published} onClick={(event) => {handleUndo()}}>
                 Undo
             </Button>
-            <Button onClick={(event) => {handleRedo()}}>
+            <Button disabled = {!store.canRedo() || store.currentList.published} onClick={(event) => {handleRedo()}}>
                 Redo
             </Button>
-            <Button onClick={(event) => {handleAdd()}}>
+            <Button disabled = {!store.canAddNewSong() || store.currentList.published} onClick={(event) => {handleAdd()}}>
                 Add
             </Button>
-            <Button onClick={(event) => {handlePublish(event, idNamePair._id)}}>
+            <Button disabled = {store.currentList.published} onClick={(event) => {handlePublish(event, idNamePair._id)}}>
                 Publish
             </Button>
             <Button onClick={(event) => {handleDeleteList(event, idNamePair._id)}}>
@@ -269,13 +277,13 @@ function ListCard(props) {
                     Listens: {listens}
                 </Box>
                 <Box sx={{ p: 1 }}>
-                <IconButton onClick={(e) => handleLike(e, idNamePair._id)}>
+                    <IconButton disabled = {!idNamePair.published} onClick={(e) => handleLike(e, idNamePair._id)}>
                         <ThumbUpRoundedIcon style={{fontSize:'20pt'}} /> {likes > -1 ? likes : idNamePair.likes}
                     </IconButton>
-                    <IconButton onClick={(e) => handleDislike(e, idNamePair._id)}>
+                    <IconButton disabled = {!idNamePair.published} onClick={(e) => handleDislike(e, idNamePair._id)}>
                         <ThumbDownRoundedIcon style={{fontSize:'20pt'}} /> {dislikes > -1 ? dislikes : idNamePair.dislikes}
                     </IconButton>
-                    <IconButton onClick={(event) => {handleEdit(event)}}>
+                    <IconButton disabled = {idNamePair.published} onClick={(event) => {handleEdit(event)}}>
                         <EditRoundedIcon style={{fontSize:'20pt'}} />
                     </IconButton>
                     <IconButton onClick={(event) => {handleExpand(event, idNamePair._id)}}>
