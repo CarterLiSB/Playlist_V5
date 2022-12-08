@@ -43,6 +43,8 @@ export default function YouTubePlayerExample() {
     let displayIndex = 0;
 
     let song = "";
+    let canRewind = false;
+    let canSkip = false;
 
     if(store.selectedList){
         displayPlaylist = store.selectedList.name;
@@ -56,6 +58,12 @@ export default function YouTubePlayerExample() {
             displayIndex = index + 1;
             displayTitle = store.selectedList.songs[index].title;
             displayArtist = store.selectedList.songs[index].artist;
+            if(displayIndex > 1){
+                canRewind = true;
+            }
+            if(displayIndex < store.selectedList.songs.length){
+                canSkip = true;
+            }
         }
     }
 
@@ -96,6 +104,8 @@ export default function YouTubePlayerExample() {
     }
 
     function handleRewind(){
+        console.log(displayIndex + " with " + store.selectedList.songs.length);
+
         decSong();
     }
 
@@ -107,6 +117,7 @@ export default function YouTubePlayerExample() {
        player.playVideo();
     }
     function handleSkip(){
+        console.log(displayIndex + " with " + store.selectedList.songs.length);
         incSong();
     }
 
@@ -159,10 +170,10 @@ export default function YouTubePlayerExample() {
                 </Card>
                 <br></br>
                 <Box id = "YT-controller" sx = {{width: "86%", bgcolor: "lightgrey", borderRadius: "25px"}}>
-                    <IconButton onClick = {handleRewind}><FastRewindRoundedIcon sx = {{color: "black", fontSize: 24}}></FastRewindRoundedIcon></IconButton>
+                    <IconButton disabled = {!canRewind} onClick = {handleRewind}><FastRewindRoundedIcon sx = {{color: "black", fontSize: 24}}></FastRewindRoundedIcon></IconButton>
                     <IconButton onClick = {handlePause}><PauseRoundedIcon sx = {{color: "black", fontSize: 24}}></PauseRoundedIcon></IconButton>
                     <IconButton onClick = {handlePlay}><PlayArrowRoundedIcon sx = {{color: "black", fontSize: 24}}></PlayArrowRoundedIcon></IconButton>
-                    <IconButton onClick = {handleSkip}><FastForwardRoundedIcon sx = {{color: "black", fontSize: 24}}></FastForwardRoundedIcon></IconButton>
+                    <IconButton disabled = {!canSkip} onClick = {handleSkip}><FastForwardRoundedIcon sx = {{color: "black", fontSize: 24}}></FastForwardRoundedIcon></IconButton>
                 </Box>
             </div>
         )
